@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>11/11</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+/* ====== ألوان الصفحة — عدّل أي لون من هنا وهيتغير في كل مكان ====== */
+--bg:#fff3f0;        /* خلفية الصفحة (كريمي وردي فاتح) */
+--cream:#fffaf7;     /* الورقة والمشغل وخانة كلمة السر */
+--ink:#5a2b35;       /* لون الكلام (توت غامق) */
+--berry:#c8374f;     /* أحمر الفراولة: الختم والأزرار والمؤشر */
+--berry-light:#e2677c;/* تدرج الختم والزرار */
+--rose:#f4a7b6;      /* وردي هادي: الورود والبتلات والمشغل */
+--leaf:#86a37a;      /* أخضر ورقة الفراولة */
+--env:#f6dcd8;       /* لون الظرف */
+--env-light:#fbebe7; /* أطراف الظرف الفاتحة */
+--env-dark:#ecc2c2;  /* الجزء السفلي من الظرف */
+--line:#f1d6d2;      /* الحدود الرفيعة */
+--wine:var(--berry);
+}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:'Tajawal',sans-serif;overflow:hidden}
+.screen{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 1.2s ease;padding:20px}
+.hidden{opacity:0;pointer-events:none}
+
+/* ---------- lock ---------- */
+.envelope{position:relative;width:min(86vw,360px);aspect-ratio:3/2;background:var(--env);border-radius:6px;box-shadow:0 18px 40px rgba(120,80,50,.25);
+ clip-path:none;overflow:hidden}
+.envelope::before{content:"";position:absolute;inset:0;background:linear-gradient(155deg,var(--env-light) 0 50%,transparent 50%),linear-gradient(205deg,var(--env-light) 0 50%,transparent 50%),linear-gradient(0deg,var(--env-dark) 0 45%,transparent 45%)}
+.tag{position:absolute;top:12%;left:50%;transform:translateX(-50%);background:var(--cream);padding:8px 22px;text-align:center;direction:ltr;font-family:'Amiri',serif;font-size:1.3rem;font-style:italic;white-space:nowrap;color:var(--berry);box-shadow:0 2px 6px rgba(0,0,0,.1)}
+.seal{position:absolute;left:50%;top:58%;width:68px;height:68px;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle at 35% 30%,var(--berry-light),var(--berry));
+ box-shadow:0 4px 12px rgba(160,30,50,.35);display:grid;place-items:center;font-size:1.8rem;color:#fff0f2;overflow:hidden}
+.seal img{width:100%;height:100%;object-fit:cover}
+.lock{margin-top:28px;text-align:center;width:min(86vw,340px)}
+.lock p{font-size:.95rem;letter-spacing:.04em;margin-bottom:12px;opacity:.8}
+.lock input{width:100%;padding:13px 18px;border-radius:30px;border:1px solid var(--line);background:var(--cream);font:inherit;text-align:center;color:var(--ink);outline:none}
+.lock input:focus{border-color:var(--rose);box-shadow:0 0 0 3px rgba(233,169,189,.3)}
+.lock button{margin-top:14px;padding:12px 40px;border:0;border-radius:30px;background:linear-gradient(var(--berry-light),var(--berry));color:#fff;font:inherit;font-weight:500;cursor:pointer;box-shadow:0 6px 14px rgba(180,40,60,.3)}
+.err{height:20px;margin-top:8px;color:var(--wine);font-size:.85rem}
+.shake{animation:shake .4s}
+@keyframes shake{25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+
+/* ---------- letter ---------- */
+#letter{justify-content:flex-start;align-items:center;overflow-y:auto;padding:40px 0 170px}
+.screen{z-index:2}#lock{z-index:3}
+#bouquet{position:fixed;inset:0;z-index:1;pointer-events:none;transform-origin:100% 50%;transition:transform 3.2s ease,opacity 3.2s ease}
+#bouquet.settle{transform:translateX(36vw) scale(.9);opacity:.6}
+.spot{position:absolute;animation:sway 9s ease-in-out infinite alternate}
+.peony{position:absolute;inset:0;transform:scale(0) rotate(-50deg);opacity:0;transition:transform 2.4s cubic-bezier(.2,.8,.25,1),opacity 1.8s ease;filter:blur(.4px) drop-shadow(0 6px 14px rgba(190,70,110,.25))}
+#bouquet.on .peony{transform:none;opacity:.92}
+.peony i{position:absolute;left:50%;top:50%;width:44%;height:50%;margin:-50% 0 0 -22%;border-radius:50% 50% 46% 46%;transform-origin:50% 100%;opacity:.9}
+.peony u{position:absolute;left:50%;top:50%;width:14%;height:14%;margin:-7% 0 0 -7%;border-radius:50%;background:radial-gradient(circle,#f3b23c,#d9822b)}
+@keyframes sway{from{transform:translate(0,0) rotate(0)}to{transform:translate(-10px,8px) rotate(6deg)}}
+#petals{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+.petal{position:absolute;top:-30px;width:12px;height:16px;background:var(--rose);border-radius:80% 0 80% 0;opacity:.5;animation:fall linear infinite}
+@keyframes fall{to{transform:translate(-60px,110vh) rotate(360deg)}}
+.paper{position:relative;width:min(92vw,520px);padding:34px 28px;background:rgba(255,250,247,.8);border-radius:10px;box-shadow:0 10px 40px rgba(150,110,90,.15);
+ font-family:'Amiri',serif;font-size:1.3rem;line-height:2.05;text-align:right;direction:rtl;opacity:0;transition:opacity 2.5s ease}.paper.show{opacity:1}
+.paper h1{font-size:1.7rem;text-align:center;margin-bottom:14px;font-weight:700}
+.paper p{margin-bottom:14px;min-height:1em}
+.paper .end{text-align:center;font-weight:700;margin-top:10px}
+.caret::after{content:"";display:inline-block;width:2px;height:1.1em;background:var(--wine);margin-right:3px;vertical-align:middle;animation:blink .8s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+
+/* ---------- player ---------- */
+.player{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom,0px));width:min(94vw,480px);padding:12px 16px 10px;background:rgba(255,250,247,.94);border:1px solid var(--line);border-radius:26px;box-shadow:0 8px 24px rgba(150,70,90,.18);z-index:5;transition:opacity 1.2s}
+.prow{display:flex;align-items:center;gap:10px}
+.art{width:50px;height:50px;border-radius:50%;flex:none;background:radial-gradient(circle at 35% 30%,var(--berry-light),var(--berry));overflow:hidden;box-shadow:0 0 0 3px #fff,0 2px 8px rgba(0,0,0,.15)}
+.art img{width:100%;height:100%;object-fit:cover;display:block}
+.ctrl{display:flex;gap:8px;align-items:center}
+.ctrl button{width:36px;height:36px;border:0;border-radius:50%;background:#fbe3e7;color:var(--berry);display:grid;place-items:center;cursor:pointer;padding:0}
+.ctrl #play{width:46px;height:46px;background:var(--rose);color:#fff}
+.ctrl svg{width:16px;height:16px;fill:currentColor}
+.meta{flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-end;gap:3px}
+.meta b{font-weight:500;font-size:.98rem;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cnt{font-size:.75rem;opacity:.55;display:flex;gap:8px}.cnt em{font-style:normal}.cnt i{font-style:normal;letter-spacing:1px;font-size:.5rem;align-self:center}
+.bar{height:4px;background:var(--line);border-radius:4px;margin-top:10px;cursor:pointer}
+.bar div{height:100%;width:0;background:var(--rose);border-radius:4px}
+.times{display:flex;justify-content:space-between;align-items:center;font-size:.72rem;opacity:.6;margin-top:5px}
+.pick{font-size:.72rem;text-decoration:underline;cursor:pointer;display:none}
+@media (prefers-reduced-motion:reduce){.spot,.petal{animation:none}}
+</style>
+</head>
+<body>
+
+<!-- شاشة كلمة السر -->
+<div class="screen" id="lock">
+  <div class="envelope">
+    <div class="tag">To my everything 🍓</div>
+    <div class="seal"><img src="photo.jpg" alt="" onerror="var p=this.parentNode;this.remove();p.textContent='♥'"></div>
+  </div>
+  <div class="lock">
+    <p>Enter the secret word</p>
+    <input id="pw" type="password" placeholder="• password •" autocomplete="off">
+    <div class="err" id="err"></div>
+    <button id="unlock">💕 Unlock 💕</button>
+  </div>
+</div>
+
+<!-- الرسالة -->
+<div id="bouquet"></div><div id="petals"></div>
+<div class="screen" id="letter">
+  <div class="paper" id="paper"><h1 id="title"></h1></div>
+</div>
+
+<!-- Player -->
+<div class="player hidden" id="player">
+  <div class="prow">
+    <div class="art"><img src="photo.jpg" alt="" onerror="this.remove()"></div>
+    <div class="ctrl">
+      <button id="prev" aria-label="Previous"><svg viewBox="0 0 24 24"><path d="M6 5h2v14H6zM20 5v14L9 12z"/></svg></button>
+      <button id="play" aria-label="Play"></button>
+      <button id="next" aria-label="Next"><svg viewBox="0 0 24 24"><path d="M16 5h2v14h-2zM4 5v14l11-7z"/></svg></button>
+    </div>
+    <div class="meta"><b id="stitle" dir="auto"></b><span class="cnt"><em id="cnt">1 / 1</em><i>&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;</i></span></div>
+  </div>
+  <div class="bar" id="bar"><div id="fill"></div></div>
+  <div class="times"><span id="cur">0:00</span><label class="pick" id="pickLbl">Choose song<input type="file" id="file" accept="audio/*" hidden></label><span id="dur">0:00</span></div>
+</div>
+<audio id="song" preload="auto"></audio>
+
+<script>
+/* ====== SETTINGS (edit freely) ====== */
+const PASSWORD = "myonlylove";        // secret word (not case sensitive)
+const TYPE_SPEED = 45;                // ms per character (lower = faster)
+const SONGS = [                       // add more songs here: {src:"song2.mp3", title:"..."}
+  {src:"song.mp3", title:"وانت معايا ❤️"}
+];
+const TITLE = "١١/١١ يا فيرو ❤️";
+const LETTER = [
+"النهاردة ١١/١١، والرقم ده مش بيتكرر كل يوم، زيك بالظبط ✨ انتي مش هتتكرري في حياتي ولا هتتعوضي ❤️",
+"انتي مش مجرد بنت في حياتي يا فيرو، دي انتي حياتي كلها 🌹 ومن أول صدفه جمعتنا وأنا حاسس إني لقيت الجزء اللي ناقص مني طول عمري بدور عليه 🧩 انتي دخلتي حياتي غيرتي كل حاجة جوايا، خليتيني أحب التفاصيل الصغيرة ✨ وأضحك من قلبي لمجرد ما أفتكر إنك معايا 😊",
+"أنا عارف إن الدنيا مش على طول سهلة، وبيبقى فيها مشاكل، بس بنتعاتب على طول والزعل مش بيبات بينا 🤝 عشان مفيش حاجة في الدنيا كلها تستاهل إني أخسرك يا نور عيني ✨ لأن انتي أغلى حاجة في حياتي ❤️",
+"وأوعدك إنه مهما حصل هفضل أحاول، ومهما اتخانقنا هفضل أراضيك 🥹 مفيش خناقة تكسب قدام قلبك الحلو 🍓",
+"والأهم من ده كله، إني بحب أشوفك مبسوطة دايمًا 😊 وده أكتر هدف في حياتي 🌷",
+"أنا بحبك بطريقة يمكن لو قعدت عمر فوق عمري مش هعرف أوصفها 💭 بس كل اللي أقدر أقوله إنك سبب راحتي وسبب ابتسامتي 😊 وإنك أغلى حلم لتحقق في حياتي 🌟 وجودك في حياتي هو أجمل حاجة حصلتلي من يوم ما عرفتك، وحياتي بقت هادية 🕊️ وبقول أكيد ربنا بعتك ليا عشان تطمني 🤲 ببقى نفسي أكون معاك في كل وقت وإن شاء الله هيحصل في يوم 🤞 وكل ما تبعدي بحس إن ناقصني روحي وببقى مش طايق نفسي 🥺 وكل ما بتضحكي بحس إن الدنيا ضحكتلي 🌸",
+"بحبك في كل حال، في فرحك وزعلك وصمتك وكلامك 😍❤️"
+];
+const ENDING = "ربنا يخليكي ليا يا فرولتي ❤️🍓";
+/* ==================================== */
+
+const $ = id => document.getElementById(id);
+const norm = s => s.trim().toLowerCase().replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d));
+const song = $("song");
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+function tryUnlock(){
+  if(norm($("pw").value) === norm(PASSWORD)){
+    $("lock").classList.add("hidden");
+    $("player").classList.remove("hidden");
+    setTimeout(() => $("lock").style.display = "none", 1300);
+    song.play().catch(()=>{});
+    bloomIn();
+    setTimeout(() => $("bouquet").classList.add("settle"), 5200);
+    setTimeout(() => $("paper").classList.add("show"), 6200);
+    setTimeout(typeLetter, 7200);
+  }else{
+    $("err").textContent = "That's not the secret word, try again ❤️";
+    $("pw").classList.remove("shake"); void $("pw").offsetWidth; $("pw").classList.add("shake");
+  }
+}
+$("unlock").onclick = tryUnlock;
+$("pw").addEventListener("keydown", e => e.key === "Enter" && tryUnlock());
+
+/* Peony bloom opening (full screen), then settles calmly to the right */
+function bloomIn(){
+  const b = $("bouquet"), m = Math.min(innerWidth, innerHeight * .9);
+  const cols = [["#f6b3c6","#d8668c"],["#fffaf0","#efe5b8"],["#ec86a8","#c4466f"]];   // flower colors
+  const spots = [[50,16,.52],[20,28,.4],[80,32,.44],[50,46,.58],[16,64,.42],[84,66,.42],[50,82,.52],[88,10,.3],[10,8,.3],[90,92,.3],[10,92,.3]];
+  spots.forEach(([x,y,k],i) => {
+    const sz = m*k, [c1,c2] = cols[i%3];
+    const spot = document.createElement("div"); spot.className = "spot";
+    spot.style.cssText = `left:${x}%;top:${y}%;width:${sz}px;height:${sz}px;margin:${-sz/2}px 0 0 ${-sz/2}px;animation-duration:${8+i%4*2}s`;
+    const pe = document.createElement("div"); pe.className = "peony"; pe.style.transitionDelay = (i*.22)+"s";
+    for(let r=0;r<2;r++) for(let j=0;j<9;j++){
+      const el = document.createElement("i");
+      el.style.cssText = `transform:rotate(${j*40+r*20}deg) scale(${r?.62:1});background:radial-gradient(ellipse at 50% 90%,${r?c1:c2},${r?c2:c1})`;
+      pe.appendChild(el);
+    }
+    pe.appendChild(document.createElement("u"));
+    spot.appendChild(pe); b.appendChild(spot);
+  });
+  requestAnimationFrame(() => requestAnimationFrame(() => b.classList.add("on")));
+  for(let i=0;i<12;i++){
+    const p = document.createElement("div"); p.className = "petal";
+    p.style.cssText = `right:${Math.random()*100}%;animation-duration:${14+Math.random()*10}s;animation-delay:${Math.random()*10}s`;
+    $("petals").appendChild(p);
+  }
+}
+
+/* Typing the letter */
+async function typeInto(el, text, speed){
+  el.classList.add("caret");
+  for(const ch of Array.from(text)){
+    el.textContent += ch;
+    await sleep(/[.،!؟]/.test(ch) ? speed*6 : speed);
+    $("letter").scrollTo({top:$("letter").scrollHeight, behavior:"smooth"});
+  }
+  el.classList.remove("caret");
+}
+async function typeLetter(){
+  await typeInto($("title"), TITLE, 90);
+  await sleep(500);
+  for(const para of LETTER){
+    const p = document.createElement("p"); $("paper").appendChild(p);
+    await typeInto(p, para, TYPE_SPEED);
+    await sleep(600);
+  }
+  const e = document.createElement("p"); e.className = "end"; $("paper").appendChild(e);
+  await typeInto(e, ENDING, 80);
+  e.classList.add("caret");
+}
+
+/* Music player */
+const ICON_PLAY = '<svg viewBox="0 0 24 24"><path d="M7 4v16l13-8z"/></svg>';
+const ICON_PAUSE = '<svg viewBox="0 0 24 24"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>';
+const fmt = t => isFinite(t) ? Math.floor(t/60)+":"+String(Math.floor(t%60)).padStart(2,"0") : "0:00";
+let idx = 0;
+function load(i){
+  idx = (i + SONGS.length) % SONGS.length;
+  song.src = SONGS[idx].src; song.loop = SONGS.length === 1;
+  $("stitle").textContent = SONGS[idx].title;
+  $("cnt").textContent = (idx+1)+" / "+SONGS.length;
+  $("fill").style.width = "0"; $("cur").textContent = "0:00"; $("dur").textContent = "0:00";
+}
+load(0);
+$("play").innerHTML = ICON_PLAY;
+$("play").onclick = () => song.paused ? song.play() : song.pause();
+$("prev").onclick = () => { load(idx-1); song.play(); };
+$("next").onclick = () => { load(idx+1); song.play(); };
+song.onended = () => { if(SONGS.length > 1){ load(idx+1); song.play(); } };
+song.onplay = () => $("play").innerHTML = ICON_PAUSE;
+song.onpause = () => $("play").innerHTML = ICON_PLAY;
+song.onloadedmetadata = () => $("dur").textContent = fmt(song.duration);
+song.ontimeupdate = () => { $("fill").style.width = (song.currentTime/(song.duration||1)*100)+"%"; $("cur").textContent = fmt(song.currentTime); };
+$("bar").onclick = e => { const r = e.currentTarget.getBoundingClientRect(); song.currentTime = ((e.clientX-r.left)/r.width)*(song.duration||0); };
+song.onerror = () => $("pickLbl").style.display = "block";   // song file missing -> let her pick one
+$("file").onchange = e => { const f = e.target.files[0]; if(f){ song.src = URL.createObjectURL(f); song.play(); } };
+</script>
+</body>
+</html>
